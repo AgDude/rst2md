@@ -137,7 +137,17 @@ class Translator(nodes.NodeVisitor):
 
     def depart_problematic(self, node):
         self.body.append(self.defs['problematic'][1])
-
+    
+    def visit_reference(self, node):
+        self.body.append('[')
+        
+    def depart_reference(self, node):
+        if 'refuri' in node:
+            uri = node['refuri']
+        else:
+            uri = ''
+        self.body.append('](%s)' % uri)
+        
     def visit_section(self, node):
         self.section_level += 1
 
